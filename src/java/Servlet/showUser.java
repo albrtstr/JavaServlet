@@ -64,7 +64,7 @@ public class showUser extends HttpServlet {
         DataBaseConnection conn = new DataBaseConnection();
         PrintWriter out = response.getWriter();
         try {
-            String query = "select * from user";
+            String query = "select * from mhs185314105.userpengguna";
             Statement statement = conn.getConnection().createStatement();
             ResultSet result = statement.executeQuery(query);
             
@@ -86,7 +86,7 @@ public class showUser extends HttpServlet {
                 out.print("<td>" +result.getString(2)+ "</td>");
                 out.print("<td>" +result.getString(3)+ "</td>");
                 out.print("<td>" +result.getString(4)+ "</td>");
-                out.print("<td><a href=DeleteUser?userName='" + result.getString(1) + "'>Delete</a></td>");
+                out.print("<td><a href=deleteUser?mhs185314105.userpengguna.userName='" + result.getString(1) + "'>Delete</a></td>");
                 out.print("</tr>");
             }
             

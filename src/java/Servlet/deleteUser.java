@@ -61,7 +61,7 @@ public class deleteUser extends HttpServlet {
             throws ServletException, IOException {
         DataBaseConnection conn = new DataBaseConnection();
         PrintWriter out = response.getWriter();
-        String user = request.getParameter("userName");
+        String user = request.getParameter("mhs185314105.userpengguna.userName");
         System.out.println(user);
         
         try {

@@ -16,8 +16,8 @@ import java.sql.SQLException;
  */
 public class DataBaseConnection {
     private String jdbcURL = "jdbc:oracle:thin:@172.23.9.185:1521:orcl";
-    private String user = "MHS175314082";
-    private String password = "MHS175314082";
+    private String user = "MHS185314105";
+    private String password = "MHS185314105";
     private Connection connection = null;
     
     public DataBaseConnection(){
