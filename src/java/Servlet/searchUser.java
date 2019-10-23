@@ -9,6 +9,7 @@ package Servlet;
 import Tools.DataBaseConnection;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ASUS
  */
-public class deleteUser extends HttpServlet {
+public class searchUser extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +39,10 @@ public class deleteUser extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet deleteUser</title>");            
+            out.println("<title>Servlet searchUser</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet deleteUser at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet searchUser at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,19 +60,51 @@ public class deleteUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html");
         DataBaseConnection conn = new DataBaseConnection();
         PrintWriter out = response.getWriter();
         String user = request.getParameter("userName");
-        System.out.println(user);
+        user = user.toUpperCase();
         
         try {
-            String query = "delete from userpengguna where userName= " +user+ "";
+            String query = "select * from userpengguna where userName = '"+user+"'";
             Statement statement = conn.getConnection().createStatement();
-            int delete = statement.executeUpdate(query);
-            response.sendRedirect("showUser");
-        } catch (Exception ex) {
-            out.println("message: " +ex.getMessage());
+            ResultSet result = statement.executeQuery(query);
+            out.print("<html>");
+            out.print(  "<body>");
+            out.print(      "<center><table border=3>");
+            out.print(      "<tr>");
+            out.print(        "<td>Username</td>");
+            out.print(        "<td>Password</td>");
+            out.print(        "<td>Email</td>");
+            out.print(        "<td>Birthdate</td>");
+            out.print(      "</tr>");
+            if (result.next()) {
+                out.print(  "<tr>"); 
+                out.print(    "<td>" +result.getString(1)+ "</td>");
+                out.print(    "<td>" +result.getString(2)+ "</td>");
+                out.print(    "<td>" +result.getString(3)+ "</td>");
+                out.print(    "<td>" +result.getString(4)+ "</td>");
+                out.print(  "</tr>");
+                out.print(  "<h2>Username " +user+ " ditemukan!</h2>");
+            } else {
+                out.print(  "<tr>");
+                out.print(    "<td><center> - </center></td>");
+                out.print(    "<td><center> - </center></td>");
+                out.print(    "<td><center> - </center></td>");
+                out.print(    "<td><center> - </center></td>");
+                out.print(  "</tr>");
+                out.print("<h2>Data tidak ditemukan!</h2>");
+                out.print("</table>");
+                out.print("<br><a href='formSearchUser.jsp'>Kembali mencari</a></br>");
+            }
+            out.print("</center></table>");
+            out.print("</body>");
+            out.print("</html>");
+        } catch(Exception ex){
+            System.out.println("message: "+ex.getMessage());
         }
+        
     }
 
     /**
@@ -85,7 +118,7 @@ public class deleteUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
     }
 
     /**

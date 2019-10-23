@@ -84,6 +84,34 @@
         <servlet-name>deleteUser</servlet-name>
         <servlet-class>Servlet.deleteUser</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>addUser</servlet-name>
+        <servlet-class>Servlet.addUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>searchUser</servlet-name>
+        <servlet-class>Servlet.searchUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updateUser</servlet-name>
+        <servlet-class>Servlet.updateUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>showStock</servlet-name>
+        <servlet-class>StokGudang.showStock</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>addStock</servlet-name>
+        <servlet-class>StokGudang.addStock</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>fungsiGudang</servlet-name>
+        <servlet-class>StokGudang.fungsiGudang</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updateStock</servlet-name>
+        <servlet-class>StokGudang.updateStock</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>htmlsederhana</servlet-name>
         <url-pattern>/htmlsederhana</url-pattern>
@@ -167,6 +195,34 @@
     <servlet-mapping>
         <servlet-name>deleteUser</servlet-name>
         <url-pattern>/deleteUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addUser</servlet-name>
+        <url-pattern>/addUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>searchUser</servlet-name>
+        <url-pattern>/searchUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateUser</servlet-name>
+        <url-pattern>/updateUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>showStock</servlet-name>
+        <url-pattern>/showStock</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addStock</servlet-name>
+        <url-pattern>/addStock</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>fungsiGudang</servlet-name>
+        <url-pattern>/fungsiGudang</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateStock</servlet-name>
+        <url-pattern>/updateStock</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

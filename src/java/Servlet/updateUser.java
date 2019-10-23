@@ -3,23 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Servlet;
 
 import Tools.DataBaseConnection;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author ASUS
  */
-public class deleteUser extends HttpServlet {
+public class updateUser extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +41,10 @@ public class deleteUser extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet deleteUser</title>");            
+            out.println("<title>Servlet updateUser</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet deleteUser at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet updateUser at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,18 +62,23 @@ public class deleteUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html");
         DataBaseConnection conn = new DataBaseConnection();
+        Connection connect = conn.getConnection();
         PrintWriter out = response.getWriter();
-        String user = request.getParameter("userName");
-        System.out.println(user);
-        
+        String userLama = request.getParameter("userLama");
+        String user = request.getParameter("userBaru");
+        System.out.println(userLama);
         try {
-            String query = "delete from userpengguna where userName= " +user+ "";
-            Statement statement = conn.getConnection().createStatement();
-            int delete = statement.executeUpdate(query);
+            PreparedStatement data = connect.prepareStatement("update userpengguna set userName=?  where userName= ? ");
+            data.setString(1, user);
+            data.setString(2, userLama);
+
+            data.executeUpdate();
             response.sendRedirect("showUser");
+            connect.close();
         } catch (Exception ex) {
-            out.println("message: " +ex.getMessage());
+            out.println("Message:  " + ex.getMessage());
         }
     }
 
@@ -85,7 +93,7 @@ public class deleteUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
     }
 
     /**

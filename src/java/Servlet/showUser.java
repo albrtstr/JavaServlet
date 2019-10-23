@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Servlet;
 
 import Tools.DataBaseConnection;
@@ -12,6 +11,7 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,7 +39,7 @@ public class showUser extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet showUser</title>");            
+            out.println("<title>Servlet showUser</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet showUser at " + request.getContextPath() + "</h1>");
@@ -64,10 +64,10 @@ public class showUser extends HttpServlet {
         DataBaseConnection conn = new DataBaseConnection();
         PrintWriter out = response.getWriter();
         try {
-            String query = "select * from mhs185314105.userpengguna";
+            String query = "select * from userpengguna";
             Statement statement = conn.getConnection().createStatement();
             ResultSet result = statement.executeQuery(query);
-            
+
             out.print("<html>");
             out.print("<body>");
             out.print("<center><table border=3>");
@@ -77,25 +77,29 @@ public class showUser extends HttpServlet {
             out.print("<td>Email</td>");
             out.print("<td>Birthdate</td>");
             out.print("<td>Delete</td>");
-            
+            out.print("<td>Update</td>");
+
             out.print("</tr>");
-            
+ 
             while (result.next()) {
                 out.print("<tr>");
-                out.print("<td>" +result.getString(1)+ "</td>");
-                out.print("<td>" +result.getString(2)+ "</td>");
-                out.print("<td>" +result.getString(3)+ "</td>");
-                out.print("<td>" +result.getString(4)+ "</td>");
-                out.print("<td><a href=deleteUser?mhs185314105.userpengguna.userName='" + result.getString(1) + "'>Delete</a></td>");
+                out.print("<td>" + result.getString(1) + "</td>");
+                out.print("<td>" + result.getString(2) + "</td>");
+                out.print("<td>" + result.getString(3) + "</td>");
+                out.print("<td>" + result.getString(4) + "</td>");
+                out.print("<td><a href=deleteUser?userName='" + result.getString(1) + "'>Delete</a></td>");
+                out.print("<td><a href=formUpdateUser.jsp?userName='" +result.getString(1)+ "'>Update</a></td>");
                 out.print("</tr>");
             }
-            
-            out.print("</table></center>");
+
+            out.print("</table>");
+            out.print("<br><a href='inputDatabase.jsp'>Tambah User baru</a></br>");
+            out.print("</center>");
             out.print("</body>");
             out.print("</html>");
             statement.close();
-        } catch (Exception ex){
-            out.println("message:" +ex.getMessage());
+        } catch (Exception ex) {
+            out.println("message:" + ex.getMessage());
         }
     }
 

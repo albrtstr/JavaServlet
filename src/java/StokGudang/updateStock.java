@@ -4,12 +4,14 @@
  * and open the template in the editor.
  */
 
-package Servlet;
+package StokGudang;
 
 import Tools.DataBaseConnection;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ASUS
  */
-public class deleteUser extends HttpServlet {
+public class updateStock extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +40,10 @@ public class deleteUser extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet deleteUser</title>");            
+            out.println("<title>Servlet updateStock</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet deleteUser at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet updateStock at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,18 +61,34 @@ public class deleteUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html");
         DataBaseConnection conn = new DataBaseConnection();
+        Connection connect = conn.getConnection();
         PrintWriter out = response.getWriter();
-        String user = request.getParameter("userName");
-        System.out.println(user);
+        
+        String idProduk = request.getParameter("idProduk");
+        String merkProduk = request.getParameter("merkProduk");
+        String tipeProduk = request.getParameter("tipeProduk");
+        String jenisProduk = request.getParameter("radioJenis");
+        String platformProduk = request.getParameter("jenisPlatform");
+        String hargaProduk = request.getParameter("hargaProduk");
+        String jumlahProduk = request.getParameter("jumlahProduk");
         
         try {
-            String query = "delete from userpengguna where userName= " +user+ "";
-            Statement statement = conn.getConnection().createStatement();
-            int delete = statement.executeUpdate(query);
-            response.sendRedirect("showUser");
-        } catch (Exception ex) {
-            out.println("message: " +ex.getMessage());
+            PreparedStatement update = connect.prepareStatement("update stok_gudang set merk=?, tipe=?, jenis=?, platform=?, harga=?, jumlah=? where produkid=?");
+            update.setString(1, merkProduk);
+            update.setString(2, tipeProduk);
+            update.setString(3, jenisProduk);
+            update.setString(4, platformProduk);
+            update.setString(5, hargaProduk);
+            update.setString(6, jumlahProduk);
+            update.setString(7, idProduk);
+            
+            update.executeUpdate();
+            response.sendRedirect("showStock");
+            connect.close();
+        } catch (SQLException ex){
+            out.println("Message: " +ex.getMessage());
         }
     }
 
